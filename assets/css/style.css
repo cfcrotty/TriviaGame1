@@ -76,9 +76,36 @@ p {
     width: 300px;
     height: 250px;
 }
+.answer {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.animateImage {
+    position: relative;
+    top: 0;
+    z-index: 0;
+    width: 100px;
+    height: 80px;
+}
+.animateImage1 {
+    position: relative;
+    top: 0;
+    z-index: 0;
+    width: 100px;
+    height: 80px;
+}
+.animateImage1 {
+    position: absolute;
+    top: 130px;
+    right: 0px;
+    z-index: 0;
+    width: 100px;
+    height: 80px;
+}
 /* Change Bootstrap CSS*/
 .container {
     max-width: 80%;
+    z-index: 100;
 }
 .card-header { 
     padding: 0;
@@ -101,6 +128,7 @@ p {
     background-size: cover;
     background-position-x: 0px;
     background-position-y: -460px;
+    z-index: 5;
 }
 
 /* START - Media Queries */

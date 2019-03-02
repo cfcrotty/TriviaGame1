@@ -1,7 +1,7 @@
 var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
-var time = 10;
+var time = 8;
 var intervalId = 0;
 var questionNum = 0;
 var intervalIdTime = 0;
@@ -11,6 +11,9 @@ var timeoutId1 = 0;
 var timeoutId2 = 0;
 var userAnswer = "";
 var audio = 0;
+
+var animateImage = $(".animateImage");
+var animateImage1 = $(".animateImage1");
 
 var questionsArr = [
     { theQuestion: "What is the hottest planet in the solar system?", choice1: "Mercury", choice2: "Earth", choice3: "Venus", theAnswer: "Venus", image: "assets/images/Venus.jpg" },
@@ -23,6 +26,7 @@ var questionsArr = [
 $("#done").on("click", startGame);
 $("#start").on("click", startGame);
 $(".choices").click(choiceSelected);
+
 //
 function startGame() {
     if (questionNum >= questionsArr.length) {
@@ -38,7 +42,7 @@ function startGame() {
 }
 //
 function insertQuestion() {
-    time = 7;
+    time = 8;
     clearInterval(intervalIdTime);
     intervalIdTime = setInterval(countTime, 1000);
     $("#startDiv").hide();
@@ -48,9 +52,7 @@ function insertQuestion() {
             <p><button class="choices" name="q${questionNum}2" id="q${questionNum}2" value="${questionsArr[questionNum].choice2}"> ${questionsArr[questionNum].choice2}</button></p> 
             <p><button class="choices" name="q${questionNum}3" id="q${questionNum}3" value="${questionsArr[questionNum].choice3}"> ${questionsArr[questionNum].choice3}</button>
             </p>`);
-
     $(".choices").click(choiceSelected);
-
     clearTimeout(timeoutId);
     timeoutId = setTimeout(displayAnswer, 10000);
 }
@@ -75,7 +77,7 @@ function displayAnswer() {
 }
 //function to count the timer & insert it to myTimer
 function countTime() {
-    $("#myTimer").text(time);
+    if(time>=0) $("#myTimer").text(time);
     time--;
 }
 //function to end game hide questions div & show scores div
@@ -97,7 +99,7 @@ function endGame() {
     incorrect = 0;
     unanswered = 0;
 }
-//
+//function to run when an answer is selected
 function choiceSelected() {
     if ($(this).val()) userAnswer=$(this).val();
     else userAnswer="";
@@ -110,22 +112,22 @@ function choiceSelected() {
     clearTimeout(timeoutId2);
     timeoutId2 = setTimeout(startGame, 5000);
 }
-//
+//function to check answer and insert image data
 function checkQuestion(val) {
     var str = "";
     if (!val) {
         loadSong(0);
-        str = "<h1 class='card-title'>Time's Up!</h1>"+"<h2 class='card-title'>The correct answer is <p>"+questionsArr[questionNum].theAnswer+"</p></h2>";
+        str = "<h1 class='card-title'>Time's Up!</h1>"+"<h2 class='card-title'>The correct answer is <p class='answer'>"+questionsArr[questionNum].theAnswer+"</p></h2>";
         str += "<img class='imageAnswer' src='"+questionsArr[questionNum].image+"' >";
         unanswered++;
     } else if (val === questionsArr[questionNum].theAnswer) {
         loadSong(1);
-        str = "<h1 class='card-title'>Congratulations!</h1>"+"<h2 class='card-title'>You selected the correct answer <p>"+questionsArr[questionNum].theAnswer+"</p></h2>";
+        str = "<h1 class='card-title'>Congratulations!</h1>"+"<h2 class='card-title'>You selected the correct answer <p class='answer'>"+questionsArr[questionNum].theAnswer+"</p></h2>";
         str += "<img class='imageAnswer' src='"+questionsArr[questionNum].image+"' >";
         correct++;
     } else if (val !== questionsArr[questionNum].theAnswer) {
         loadSong(0);
-        str = "<h1 class='card-title'>Wrong Answer!</h1>"+"<h2 class='card-title'>The correct answer is <p>"+questionsArr[questionNum].theAnswer+"</p></h2>";
+        str = "<h1 class='card-title'>Wrong Answer!</h1>"+"<h2 class='card-title'>The correct answer is <p class='answer'>"+questionsArr[questionNum].theAnswer+"</p></h2>";
         str += "<img class='imageAnswer' src='"+questionsArr[questionNum].image+"' >";
         incorrect++;
     }
@@ -139,3 +141,28 @@ function loadSong(flag) {
     audio = new Audio(audioToPlay);
     audio.play();
 }
+var widthScreen = 0;
+var back = false;
+var pxl = 50;
+//function for animation of image
+function showHideImages() {
+    theWidth = $(window).width()-100;
+    if (!back && theWidth <= widthScreen) {
+        back = true;
+    }
+    if (widthScreen<=0) {
+        back = false;
+    }
+    if ($(window).width() < widthScreen || back) {
+        widthScreen-=pxl;
+        animateImage.animate({ left: "-="+pxl+"px" }, "normal");
+        animateImage1.animate({ left: "+="+pxl+"px" }, "normal");
+    } else if (theWidth > widthScreen || !back) {
+        widthScreen+=pxl;
+        animateImage.animate({ left: "+="+pxl+"px" }, "normal");
+        animateImage1.animate({ left: "-="+pxl+"px" }, "normal");
+    }
+}
+$(document).ready(function() {
+    intervalIdAnimate = setInterval(showHideImages, 1);
+});
