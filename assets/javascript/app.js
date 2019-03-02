@@ -11,7 +11,15 @@ var timeoutId1 = 0;
 var timeoutId2 = 0;
 var userAnswer = "";
 var audio = 0;
-
+//animation
+var widthScreen = 0;
+var heightScreen = 0;
+var back = false;
+var back1 = false;
+var pxl = 50;
+var pxl1 = 20;
+theWidth = $(window).width()-100;
+theHeight = $(window).height()-215;
 var animateImage = $(".animateImage");
 var animateImage1 = $(".animateImage1");
 var animateImage2 = $(".animateImage2");
@@ -143,14 +151,6 @@ function loadSong(flag) {
     audio = new Audio(audioToPlay);
     audio.play();
 }
-var widthScreen = 0;
-var heightScreen = 0;
-var back = false;
-var back1 = false;
-var pxl = 50;
-var pxl1 = 20;
-theWidth = $(window).width()-100;
-theHeight = $(window).height()-215;
 //function for animation of image
 function showHideImages() {
     if (!back1 && theHeight <= heightScreen) {
