@@ -14,6 +14,8 @@ var audio = 0;
 
 var animateImage = $(".animateImage");
 var animateImage1 = $(".animateImage1");
+var animateImage2 = $(".animateImage2");
+var animateImage3 = $(".animateImage3");
 
 var questionsArr = [
     { theQuestion: "What is the hottest planet in the solar system?", choice1: "Mercury", choice2: "Earth", choice3: "Venus", theAnswer: "Venus", image: "assets/images/Venus.jpg" },
@@ -142,25 +144,46 @@ function loadSong(flag) {
     audio.play();
 }
 var widthScreen = 0;
+var heightScreen = 0;
 var back = false;
+var back1 = false;
 var pxl = 50;
+var pxl1 = 20;
+theWidth = $(window).width()-100;
+theHeight = $(window).height()-215;
 //function for animation of image
 function showHideImages() {
-    theWidth = $(window).width()-100;
+    if (!back1 && theHeight <= heightScreen) {
+        back1 = true;
+    } else if (heightScreen<=0) {
+        back1 = false;
+    }
     if (!back && theWidth <= widthScreen) {
         back = true;
-    }
-    if (widthScreen<=0) {
+    } else if (widthScreen<=0) {
         back = false;
     }
     if ($(window).width() < widthScreen || back) {
         widthScreen-=pxl;
         animateImage.animate({ left: "-="+pxl+"px" }, "normal");
         animateImage1.animate({ left: "+="+pxl+"px" }, "normal");
+        
     } else if (theWidth > widthScreen || !back) {
         widthScreen+=pxl;
         animateImage.animate({ left: "+="+pxl+"px" }, "normal");
         animateImage1.animate({ left: "-="+pxl+"px" }, "normal");
+        
+    }
+    if ($(window).height() < heightScreen || back1) {
+        heightScreen-=pxl1;
+        animateImage2.animate({ top: "-="+pxl1+"px" }, "normal");
+        animateImage3.animate({ top: "+="+pxl1+"px" }, "normal");
+        
+    } else if (theHeight > heightScreen || !back1) {
+        heightScreen+=pxl1;
+        animateImage2.animate({ top: "+="+pxl1+"px" }, "normal");
+        animateImage3.animate({ top: "-="+pxl1+"px" }, "normal");
+        
     }
 }
 $(document).ready(function() {
